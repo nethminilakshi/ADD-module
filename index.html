@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AJAX E</title>
+</head>
+<body>
+<h1> This is an example project for AJAX </h1>
+<p id="para"> sample paragraph sample paragraph sample paragraph </p>
+<button id="ajax-btn"> Send an AJAX request</button>
+<button id="db-btn">Click to load Database</button>
+<br/><br/>
+<img id="dynamic-img" src="">  <!-- set image -->
+
+<section>
+    <h3 id="userId"></h3>
+    <h3 id="id"></h3>
+    <h3 id="title"></h3>
+    <h3 id="body"></h3>
+</section>
+
+<section>
+    <table border="1px solid black" cellpadding="8px" cellspacing="0" id="table">
+        <thead>
+        <tr>
+            <th>User Id</th>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Body</th>
+        </thead>
+
+        <tbody>
+        </tbody>
+    </table>
+</section>
+
+<script src="js/jquery-3.7.1.min.js"></script>
+<script>
+    $('#ajax-btn').click(function () {
+        var http = new XMLHttpRequest();
+
+        // fix the open state issue
+        http.open('GET', 'index.html');
+        http.send();
+    });
+
+    // -------------------------------------------- load database --------------------------------------------
+    //  $('#db-btn').click(function () {
+    // console.log('Request started!'); // To check if the request is started
+    //   var http = new XMLHttpRequest();
+
+    // console.log(http.readyState, "After the XMLHttpRequest Object is created");
+    //    http.open('GET', 'db/db.txt');  // fix the open state issue
+    //
+    //   console.log(http.readyState, "After the open method is invoked");
+    //   console.log(http.responseText);
+    //    console.log(http.readyState, "After the response text is printed");
+    //     http.send();
+    //
+    //     console.log(http.readyState, "After the send method is invoked");
+    //     http.onreadystatechange = function () {
+    //         console.log(http.readyState, "Inside the ready state change")
+    //         console.log(http.responseText)
+    //
+    //         // remove paragraph and set it to database
+    //         if (http.readyState === 4 && http.status == 200) {
+    //             console.log(http.responseText);
+    //             $('#para').text(http.responseText);
+    //         }
+    //
+    //         console.log(http.readyState);
+    //         console.log(http.status);
+    //         console.log(http.responseText);
+    //     }
+    //     console.log("Request finished!");
+    //
+    // });
+
+    // -------------------------------------------- load image --------------------------------------------
+    // $('#db-btn').click(function () {
+    //     console.log('Request started!'); // To check if the request is started
+    //     var http = new XMLHttpRequest();
+    //
+    //     console.log(http.readyState, "After the XMLHttpRequest Object is created");
+    //     http.open('GET', 'images/image.jpg', false);
+    //
+    //     console.log(http.readyState, "After the open method is invoked");
+    //     console.log(http.responseText);
+    //     console.log(http.readyState, "After the response text is printed");
+    //     http.send();
+    //
+    //     console.log(http.readyState, "After the send method is invoked");
+    //     http.onreadystatechange = function () {
+    //         console.log(http.readyState, "Inside the ready state change")
+    //         console.log(http.responseText)
+    //
+    //         // remove the paragraph and set it to a database
+    //         if (http.readyState === 4 && http.status == 200) {
+    //             console.log(http.responseText);
+    //
+    //             $('#dynamic-img').attr('src', "images/image.jpg").css('width', '500').show();
+    //         }
+    //
+    //         console.log(http.readyState);
+    //         console.log(http.status);
+    //         console.log(http.responseText);
+    //     }
+    //     console.log("Request finished!");
+    // });
+</script>
+<script>
+    // Synchronous
+    // console.log('1');
+    // console.log('2');
+    // console.log('3');
+
+    // Asynchronous
+    console.log('start')
+    setTimeout(() => {
+        console.log('middle-1');
+    }, 2000);
+
+    setTimeout(() => {
+        console.log('middle-2');
+    }, 1000);
+
+    console.log('end');
+</script>
+
+<script>
+    // use ajax to load the database
+    $('#ajax-btn').click(function () {
+        console.log('Request started!');
+        $.ajax({
+            url: 'https://jsonplaceholder.typicode.com/posts',
+            async: false,
+
+            success: function (array) {
+                // console.log(response.userId);
+                // console.log(response.id);
+                // console.log(response.title);
+                // console.log(response.body);
+
+                // $('#userId').text("UserId: " + response.userId);
+                // $('#id').text("Id: " + response.id);
+                // $('#title').text("Title: " + response.title);
+                // $('#body').text("Body: " + response.body);
+
+                for (const data of array) {
+                    $('#table tbody').append(
+                        `<tr>
+                            <td>${data.userId}</td>
+                            <td>${data.id}</td>
+                            <td>${data.title}</td>
+                            <td>${data.body}</td>
+                        </tr>`
+                    );
+                }
+            },
+            error: function (error) {
+                console.log(error.id);
+            }
+        });
+        console.log('Request finished!');
+    });
+</script>
+
+</body>
+</html>
